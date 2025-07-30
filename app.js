@@ -2,6 +2,7 @@ import 'dotenv/config';
 import express from 'express';
 import routes from './src/index.js';
 import prisma from './db/pool.js';
+import errorHandler from './src/middleware/errorHandler.js';
 
 const app = express();
 
@@ -16,6 +17,9 @@ app.use("/login", routes.login);
 app.use("/users", routes.user);
 app.use("/posts", routes.post);
 app.use("/comments", routes.comment);
+
+// Error handling middleware
+app.use(errorHandler);
 
 // Start server
 app.listen(process.env.PORT, () =>

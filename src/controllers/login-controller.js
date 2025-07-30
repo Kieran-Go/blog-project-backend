@@ -16,8 +16,8 @@ export default {
             if (!passwordMatch) return null;
 
             return user;
-        } catch (err) {
-            console.error("Error in getLoginRequest: ", err);
+        } 
+        catch (err) {
             throw err;
         }
     }

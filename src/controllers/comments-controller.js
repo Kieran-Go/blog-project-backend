@@ -6,7 +6,6 @@ module.exports = {
             return await prisma.comment.findMany();
         }
         catch(err) {
-            console.error("Error in getAllComments: ", err);
             throw err;
         }
     },
@@ -18,7 +17,6 @@ module.exports = {
             });
         }
         catch(err) {
-            console.error("Error in getCommentById: ", err);
             throw err;
         }
     },
@@ -30,7 +28,6 @@ module.exports = {
         });
         } 
         catch (err) {
-        console.error("Error in createComment: ", err);
         throw err;
         }
     },
@@ -49,7 +46,6 @@ module.exports = {
             if (err.code === 'P2025') {
                 return null;
             }
-            console.error("Error in editComment: ", err);
             throw err;
         }
     },
@@ -65,7 +61,6 @@ module.exports = {
             if (err.code === 'P2025') {
                 return null;
             }
-            console.error("Error in deleteComment: ", err)
             throw err;
         }
     },

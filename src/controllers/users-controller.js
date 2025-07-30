@@ -21,7 +21,6 @@ module.exports = {
             });
         }
         catch(err) {
-            console.error("Error in getUserById: ", err);
             throw err;
         }
     },
@@ -33,7 +32,6 @@ module.exports = {
             });
         }
         catch(err) {
-            console.error("Error in getUsersPosts: ", err);
             throw err;
         }
     },
@@ -46,7 +44,6 @@ module.exports = {
         });
         } 
         catch (err) {
-        console.error("Error in createUser: ", err);
         throw err;
         }
     },
@@ -66,7 +63,6 @@ module.exports = {
             if (err.code === 'P2025') {
                 return null;
             }
-            console.error("Error in makeAuthor: ", err)
             throw err;
         }
     },
@@ -82,7 +78,6 @@ module.exports = {
             if (err.code === 'P2025') {
                 return null;
             }
-            console.error("Error in deleteUser: ", err)
             throw err;
         }
     },

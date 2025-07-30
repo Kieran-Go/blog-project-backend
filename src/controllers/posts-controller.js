@@ -30,7 +30,6 @@ module.exports = {
             });
         }
         catch(err) {
-            console.error("Error in getPostComments: ", err);
             throw err;
         }
     },
@@ -42,7 +41,6 @@ module.exports = {
         });
         } 
         catch (err) {
-        console.error("Error in createPost: ", err);
         throw err;
         }
     },
@@ -57,7 +55,6 @@ module.exports = {
             })
         }
         catch(err) {
-            console.error("Error in publishPost: ", err);
             throw err;
         }
     },
@@ -73,7 +70,6 @@ module.exports = {
             if (err.code === 'P2025') {
                 return null;
             }
-            console.error("Error in deletePost: ", err)
             throw err;
         }
     },

@@ -14,7 +14,7 @@ export default function verifyToken(req, res, next) {
 
     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
         if (err) {
-            return res.status(403).json({ message: 'Unauthorized' });
+            return res.status(403).json({ message: 'Invalid or expired token' });
         }
         req.user = decoded;
         next();
