@@ -2,21 +2,27 @@ import jwt from 'jsonwebtoken';
 import 'dotenv/config';
 
 export default function verifyToken(req, res, next) {
-    // Get the authorization header value
+    // Extract the Authorization header (format: "Bearer <token>")
     const authHeader = req.headers['authorization'];
 
-    if (!authHeader) {
-        return res.status(403).json({ message: 'No token provided' });
-    }
+    // If no Authorization header is present, deny access
+    if (!authHeader) return res.status(403).json({ message: 'No token provided' });
 
-    // Split at space and get token from array
+    // Split the header and retrieve the token part
+    // "Bearer abc.def.ghi" -> ["Bearer", "abc.def.ghi"]
     const token = authHeader.split(' ')[1];
 
+    // Verify the token using the secret key
     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
         if (err) {
             return res.status(403).json({ message: 'Invalid or expired token' });
         }
+        
+        // Attach decoded payload (e.g. user ID) to the request object
+        // This makes user info available in the route handler
         req.user = decoded;
+
+        // Token is valid, proceed to the next middleware or route
         next();
     });
 }

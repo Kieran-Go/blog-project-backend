@@ -36,11 +36,11 @@ router.put('/edit/:id', async (req, res) => {
 });
 
 // Delete routes
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', verifyToken, async (req, res) => {
     const id = parseInt(req.params.id, 10);
     const deleted = await controller.deleteComment(id);
     if (!deleted) return res.status(404).json({ error: "Comment not found" });
-    res.send("Comment deleted");
+    res.json(deleted);
 })
 
 export default router;

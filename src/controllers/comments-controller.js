@@ -27,7 +27,7 @@ module.exports = {
             data: { content, userId, postId },
             include: {
                 user: {
-                    select: { name: true }
+                    select: { id: true, name: true }
                 }
             }
         });
@@ -58,7 +58,12 @@ module.exports = {
     deleteComment: async (id) => {
         try{
             return await prisma.comment.delete({
-                where: { id: id }
+                where: { id: id },
+                include: {
+                user: {
+                    select: { id: true, name: true }
+                }
+            }
             })
         }
         catch(err) {

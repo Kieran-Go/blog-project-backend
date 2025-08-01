@@ -32,7 +32,7 @@ module.exports = {
                 comments: {
                 include: {
                     user: {
-                    select: { name: true }, // comment author's name
+                    select: { id: true, name: true }, // comment author's id and name
                     },
                 },
                 orderBy: {

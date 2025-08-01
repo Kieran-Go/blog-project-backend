@@ -9,18 +9,19 @@ import 'dotenv/config';
 const router = Router();
 
 router.get('/', verifyToken, async (req, res) => {
-  // req.user was populated by verifyToken
+  // The verifyToken middleware adds the decoded JWT payload to req.user. The payload should contain the user's ID
   const { id } = req.user;
 
+  // Find the user in the database using the ID from the token
   const user = await prisma.user.findUnique({
     where: { id },
-    select: { id: true, name: true, isAuthor: true }, // exclude sensitive fields
+    select: { id: true, name: true, isAuthor: true }, // exclude sensitive fields such as passwords, emails etc
   });
 
-  if (!user) {
-    return res.status(404).json({ valid: false, message: 'User not found' });
-  }
+  // If the user doesn't exist (e.g., was deleted after token was issued), return an error
+  if (!user) return res.status(404).json({ valid: false, message: 'User not found' });
 
+  // User exists and token is valid - return the user's public info
   res.json({ valid: true, user });
 });
 

@@ -3,16 +3,12 @@ import express from 'express';
 import routes from './src/index.js';
 import prisma from './db/pool.js';
 import errorHandler from './src/middleware/errorHandler.js';
-import cors from 'cors';
+import corsMiddleware from './src/middleware/corsConfig.js';
 
 const app = express();
 
-app.use(cors({
-  origin: process.env.CLIENT_ORIGIN,
-}));
-
-// Middle-ware that enables parsing URL-encoded bodies (such as HTML forms) into req.body
-app.use(express.urlencoded({ extended: false }));
+// Use CORS middleware
+app.use(corsMiddleware);
 
 // Middle-ware that enables parsing of raw json into req.body
 app.use(express.json());
