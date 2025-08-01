@@ -16,11 +16,10 @@ router.get('/:id', async (req, res) => {
 });
 
 // Post routes
-router.post('/', async (req, res) => {
-    const { content, userId, postId } = req.body;
-    if (!content || !userId || !postId) {
-      return res.status(400).json({ error: "Fields are empty." });
-    }
+router.post('/posts/:id', verifyToken, async (req, res) => {
+    const { content } = req.body;
+    const postId = parseInt(req.params.id, 10);
+    const userId = req.user.id; 
 
     const newComment = await controller.createComment(content, userId, postId);
     res.json(newComment);

@@ -9,6 +9,11 @@ router.get('/', async (req, res) => {
     res.json(posts);
 });
 
+router.get('/published', async (req, res) => {
+    const posts = await controller.getPublishedPosts();
+    res.json(posts);
+});
+
 router.get('/:id', async (req, res) => {
     const id = parseInt(req.params.id, 10);
     const post = await controller.getPostById(id);
@@ -23,13 +28,13 @@ router.get('/:id/comments', async (req, res) => {
 
 // Post routes
 router.post('/', async (req, res) => {
-    const { title, content, isPublished } = req.body;
+    const { title, content, isPublished, } = req.body;
     if (!title || !content) {
       return res.status(400).json({ error: "Fields are empty." });
     }
 
     // Temporary code: post as user with id of 1
-    const userId = 1;
+    const userId = 7;
 
     const newPost = await controller.createPost(title, content, isPublished, userId);
     res.json(newPost);

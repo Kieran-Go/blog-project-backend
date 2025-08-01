@@ -24,7 +24,12 @@ module.exports = {
     createComment: async (content, userId, postId) => {
         try {
             return await prisma.comment.create({
-            data: { content, userId, postId }
+            data: { content, userId, postId },
+            include: {
+                user: {
+                    select: { name: true }
+                }
+            }
         });
         } 
         catch (err) {

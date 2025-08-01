@@ -20,5 +20,18 @@ export default {
         catch (err) {
             throw err;
         }
+    },
+
+    signupUser: async (name, password) => {
+        const SALT_ROUNDS = 10;
+        try {
+            const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+            return await prisma.user.create({
+                data: { name: name, password: hashedPassword },
+            });
+        } 
+        catch (err) {
+            throw err;
+        }
     }
 };

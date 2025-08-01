@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 // Routes
-app.use("/login", routes.login);
+app.use("/auth", routes.auth);
 app.use("/users", routes.user);
 app.use("/posts", routes.post);
 app.use("/comments", routes.comment);

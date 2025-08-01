@@ -6,7 +6,17 @@ module.exports = {
             return await prisma.post.findMany();
         }
         catch(err) {
-            console.error("Error in getAllposts: ", err);
+            throw err;
+        }
+    },
+
+    getPublishedPosts: async () => {
+        try{
+            return await prisma.post.findMany({
+                where: { isPublished: true }
+            });
+        }
+        catch(err) {
             throw err;
         }
     },
@@ -14,14 +24,29 @@ module.exports = {
     getPostById: async (id) => {
         try {
             return await prisma.post.findUnique({
-                where: { id: id }
+            where: { id },
+            include: {
+                user: {
+                select: { name: true }, // post author's name
+                },
+                comments: {
+                include: {
+                    user: {
+                    select: { name: true }, // comment author's name
+                    },
+                },
+                orderBy: {
+                    postedAt: 'asc',
+                },
+                },
+            },
             });
-        }
-        catch(err) {
-            console.error("Error in getPostById: ", err);
+        } catch (err) {
             throw err;
         }
     },
+
+
 
     getPostComments: async (postId) => {
         try {
