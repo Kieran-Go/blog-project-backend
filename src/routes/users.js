@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import controller from "../controllers/users-controller.js";
 import verifyToken from '../middleware/verifyToken.js';
+import 'dotenv/config';
 const router = Router();
 
 // Get routes
@@ -33,12 +34,20 @@ router.post('/', async (req, res) => {
 })
 
 // Put routes
-router.put('/make-author/:id', async (req, res) => {
-    const id = parseInt(req.params.id, 10);
-    const author = await controller.makeAuthor(id);
+router.put('/make-author', verifyToken, async (req, res) => {
+    const { password } = req.body;
+    if (password !== process.env.AUTHOR_PASSWORD) return res.status(401).json({ error: 'Incorrect password' });
 
-    if (!author) return res.status(404).json({ error: "User not found" });
-    res.json(author);
+    try {
+        const updatedUser = await controller.makeAuthor(req.user.id);
+        if (!updatedUser) return res.status(404).json({ error: 'User not found' });
+
+        const { id, name, isAuthor } = updatedUser;
+        return res.json({ user: { id, name, isAuthor } });
+    } 
+    catch (err) {
+        return res.status(500).json({ error: 'Server error' });
+    }
 })
 
 // Delete routes
