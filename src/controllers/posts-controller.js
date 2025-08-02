@@ -70,6 +70,22 @@ module.exports = {
         }
     },
 
+    editPost: async (id, title, content, isPublished) => {
+        try{
+            return await prisma.post.update({
+                where: { id: id },
+                data: {
+                    title: title,
+                    content: content,
+                    isPublished: isPublished,
+                }
+            })
+        }
+        catch(err) {
+            throw err;
+        }
+    },
+
     publishPost: async (id) => {
         try {
             return await prisma.post.update({

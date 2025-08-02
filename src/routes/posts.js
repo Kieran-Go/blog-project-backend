@@ -27,17 +27,22 @@ router.get('/:id/comments', async (req, res) => {
 })
 
 // Post routes
-router.post('/', async (req, res) => {
+router.post('/create', verifyToken, async (req, res) => {
     const { title, content, isPublished, } = req.body;
     if (!title || !content) {
       return res.status(400).json({ error: "Fields are empty." });
     }
 
-    // Temporary code: post as user with id of 1
-    const userId = 7;
-
-    const newPost = await controller.createPost(title, content, isPublished, userId);
+    const newPost = await controller.createPost(title, content, isPublished, req.user.id);
     res.json(newPost);
+});
+
+router.put('/:id', verifyToken, async (req, res) => {
+    const id = parseInt(req.params.id, 10);
+    const { title, content, isPublished } = req.body;
+
+    const editedPost = await controller.editPost(id, title, content, isPublished);
+    res.json(editedPost);
 });
 
 // Put routes
